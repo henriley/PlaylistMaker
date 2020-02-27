@@ -99,6 +99,28 @@ class CreatePLaylist:
         songs = response.json['tracks']['items']
 
     def add_song_to_playlist(self):
-        pass
+        
+        self.get_liked_video()
+
+        uri = []
+        for song, info in self.all_song_info.items():
+            uri.append(info['spotify_uri'])
+
+        playlist_id = self.create_playlist()
+
+        request_data = json.dumps(uris)
+
+        query = 'https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id)
+
+        response = requests.post(
+            query,
+            data=request_data,,
+            headers={
+                'Content-Type':'application/json',
+                'Authorization':'Bearer {}'.format(spotify_secret_token)
+            }
+        )
+        response_json = response.json()
+        return response_json
 
     
