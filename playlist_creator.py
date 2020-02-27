@@ -114,7 +114,7 @@ class CreatePLaylist:
 
         response = requests.post(
             query,
-            data=request_data,,
+            data=request_data,
             headers={
                 'Content-Type':'application/json',
                 'Authorization':'Bearer {}'.format(spotify_secret_token)
