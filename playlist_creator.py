@@ -1,5 +1,7 @@
 import json
 import requests
+import os
+
 from secrets import spotify_client_id, spotify_secret_token
 
 class CreatePLaylist:
@@ -28,7 +30,7 @@ class CreatePLaylist:
             data=requests.body,
             headers={
                 'Content-Type':'application/json',
-                'Authorization':'Bearer {}'.format()
+                'Authorization':'Bearer {}'.format(spotify_secret_token)
             }
         )
 
@@ -37,7 +39,20 @@ class CreatePLaylist:
         return response_json('id')
 
     def get_spotify_uri(self, track, artist):
-        pass
+        
+        query ="https://api.spotify.com/v1/search?q=track%3A{}+artist%3A{}&type=track&offset=0&limit=20".format(
+            track,
+            artist_name
+        )
+        response=requests.get(
+            query,
+            headers={
+                'Content-Type':'application/json',
+                'Authorization':'Bearer {}'.format(spotify_secret_token)
+            }
+        )
+        response_json = response.json()
+        songs = response.json['tracks']['items']
 
     def add_song_to_playlist(self):
         pass
