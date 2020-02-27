@@ -5,6 +5,7 @@ import os
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+import youtube_dl
 
 from secrets import spotify_client_id, spotify_secret_token
 
@@ -14,6 +15,7 @@ class CreatePLaylist:
         self.user_id = spotify_client_id
         self.spotify_token = spotify_secret_token
         self.youtube_client = self.get_youtube_permission()
+        self.all_song_info = {}
 
     def get_youtube_permission(self):
         """ Log Into Youtube, Copied from Youtube Data API """
@@ -36,7 +38,27 @@ class CreatePLaylist:
         return youtube_client
 
     def get_liked_video(self):
-        pass
+        request = self.youtube_client.videos().list(
+            part='snippet,contentDetails,statistics',
+            myRating='like'
+        )
+        response = request.execute()
+
+        for item in response["items"]:
+            video_title = item['snippet']['title']
+            youtube_url = 'https://www.youtube.com/watch?v={}'.format(item['id'])
+
+            video = youtube_dl.YouTubeDL({}).extract_info(youtube_url, download=False)
+
+            song_name = video['track']
+            artist = video['artist']
+
+            self.all_song_info[video_title]={
+                'youtube_url':youtube_url,
+                'song_name':song_name,
+                'artist':artist,
+                'spotify_uri':get_spotify_uri(song_name, artist)
+            }
 
     def create_playlist(self):
         
