@@ -9,7 +9,7 @@ import youtube_dl
 
 from secrets import spotify_client_id, spotify_secret_token
 
-class CreatePLaylist:
+class CreatePlaylist:
 
     def __init__(self):
         self.youtube_client = self.get_youtube_permission()
@@ -75,11 +75,11 @@ class CreatePLaylist:
 
         response_json = response.json()
 
-        return response_json('id')
+        return response_json['id']
 
     def get_spotify_uri(self, track, artist):
         
-        query = "https://api.spotify.com/v1/search?q=track%3A{}+artist%3A{}&type=track&offset=0&limit=20".format(
+        query = "https://api.spotify.com/v1/search?query=track%3A{}+artist%3A{}&type=track&offset=0&limit=20".format(
             track,
             artist
         )
@@ -107,7 +107,7 @@ class CreatePLaylist:
 
         request_data = json.dumps(uris)
 
-        query = 'https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id)
+        query = "https://api.spotify.com/v1/playlists/{}/tracks".format(playlist_id)
 
         response = requests.post(
             query,
@@ -119,5 +119,9 @@ class CreatePLaylist:
         )
         response_json = response.json()
         return response_json
+
+if __name__ == '__main__':
+    cp = CreatePlaylist()
+    cp.add_song_to_playlist()
 
     
