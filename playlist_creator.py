@@ -40,9 +40,9 @@ class CreatePlaylist:
 
         for item in response["items"]:
             video_title = item['snippet']['title']
-            youtube_url = 'https://www.youtube.com/watch?v={}'.format(item['id'])
+            youtube_url = "https://www.youtube.com/watch?v={}".format(item["id"])
 
-            video = youtube_dl.YouTubeDL({}).extract_info(youtube_url, download=False)
+            video = youtube_dl.YoutubeDL({}).extract_info(youtube_url, download=False)
 
             song_name = video['track']
             artist = video['artist']
@@ -63,7 +63,7 @@ class CreatePlaylist:
             'public':True
         })
 
-        query = "http://api.spotify.com/v1/users/{}/playlists".format(spotify_client_id)
+        query = "https://api.spotify.com/v1/users/{}/playlists".format(spotify_client_id)
         response = requests.post(
             query,
             data=request_body,
