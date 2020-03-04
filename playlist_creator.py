@@ -58,21 +58,21 @@ class CreatePlaylist:
     def create_playlist(self):
         
         request_body = json.dumps({
-            'name':'Liked YouTube Videos',
-            'desription':'Liked YouTube Videos',
-            'public':True
+            "name": "Liked YouTube Videos",
+            "description": "All Liked Youtube Videos",
+            "public": True
         })
 
-        query = "https://api.spotify.com/v1/users/{}/playlists".format(spotify_client_id)
+        query = "https://api.spotify.com/v1/users/{}/playlists".format(
+            spotify_client_id)
         response = requests.post(
             query,
             data=request_body,
             headers={
-                'Content-Type':'application/json',
-                'Authorization':'Bearer {}'.format(spotify_secret_token)
+                "Content-Type": "application/json",
+                "Authorization": "Bearer {}".format(spotify_secret_token)
             }
         )
-
         response_json = response.json()
 
         return response_json['id']
