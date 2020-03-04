@@ -23,7 +23,8 @@ class CreatePlaylist:
         api_version = "v3"
         client_secrets_file = "client_secret.json"
 
-        scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
+        scopes = ["https://www.googleapis.com/auth/youtube.readonly",
+                  "https://www.googleapis.com/auth/youtube"]
         flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
         credentials = flow.run_console()
 
@@ -54,6 +55,12 @@ class CreatePlaylist:
                     'artist':artist,
                     'spotify_uri':self.get_spotify_uri(song_name, artist)
                 }
+            
+            request2 = self.youtube_client.videos().rate(
+                id=item["id"],
+                rating='none'
+            )
+            request2.execute()
 
     def create_playlist(self):
         
