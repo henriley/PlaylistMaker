@@ -11,9 +11,10 @@ from secrets import spotify_client_id, spotify_secret_token
 
 class CreatePlaylist:
 
-    def __init__(self):
+    def __init__(self, user_input):
         self.youtube_client = self.get_youtube_permission()
         self.all_song_info = {}
+        self.user_input= user_input
 
     def get_youtube_permission(self):
 
@@ -66,7 +67,7 @@ class CreatePlaylist:
     def create_playlist(self):
         
         request_body = json.dumps({
-            "name": "Liked YouTube Videos",
+            "name": "{}".format(self.user_input),
             "description": "All Liked Youtube Videos",
             "public": True
         })
@@ -129,7 +130,8 @@ class CreatePlaylist:
         return response_json
 
 if __name__ == '__main__':
-    cp = CreatePlaylist()
+    user_input = input('What do tou want to name your playlist? ')
+    cp = CreatePlaylist(user_input)
     cp.add_song_to_playlist()
 
     
