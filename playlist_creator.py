@@ -1,5 +1,6 @@
 import json
 import os
+import webbrowser
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
@@ -31,6 +32,7 @@ class CreatePlaylist:
         credentials = flow.run_console()
 
         youtube_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
+        print(str(youtube_client))
 
         return youtube_client
 
