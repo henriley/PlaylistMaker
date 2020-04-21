@@ -32,7 +32,7 @@ class CreatePlaylist:
         credentials = flow.run_console()
 
         youtube_client = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
-        print(str(youtube_client))
+        # print(str(youtube_client))
 
         return youtube_client
 
@@ -51,6 +51,11 @@ class CreatePlaylist:
 
             song_name = video['track']
             artist = video['artist']
+            print('--'*50)
+            print(song_name)
+            print('--'*50)
+            print(artist)
+            print('--'*50)
 
             if song_name is not None and artist is not None:
                 self.all_song_info[video_title]={
@@ -103,6 +108,7 @@ class CreatePlaylist:
         )
         response_json = response.json()
         songs = response_json['tracks']['items']
+        print(songs)
 
         uri = songs[0]["uri"]
 
